@@ -158,7 +158,7 @@ export class Environment {
     U.uTint.value.copy(k.tint).multiplyScalar(1 - dark * 0.35);
     // specular follows whichever light dominates
     if (sunVis > 0.25) { U.uSpecDir.value.copy(sd); U.uSpecColor.value.copy(k.sun).multiplyScalar(sunVis * (1 - dark * 1.2)); }
-    else { U.uSpecDir.value.copy(sd).negate(); U.uSpecColor.value.set('#9fb4ff').multiplyScalar(0.5 * moonVis * (1 - dark)); }
+    else { U.uSpecDir.value.copy(sd).negate(); U.uSpecColor.value.set('#9fb4ff').multiplyScalar(0.2 * moonVis * (1 - dark)); }
     U.uSpecDir.value.y = Math.max(U.uSpecDir.value.y, 0.12);
     U.uSpecDir.value.normalize();
 

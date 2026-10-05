@@ -33,9 +33,12 @@ vec3 rippleNormal(vec2 p){
   gx += c1 * 0.86; gz += c1 * 0.5;
   float c2 = cos(0.165 * (-0.45 * p.x + 0.89 * p.y) + 1.05 * uTime) * 0.12 * 0.165 * uAmp;
   gx += c2 * -0.45; gz += c2 * 0.89;
-  float c3 = cos(0.37 * (0.3 * p.x + 0.95 * p.y) + 1.9 * uTime) * 0.075; gx += c3 * 0.3; gz += c3 * 0.95;
-  float c4 = cos(0.70 * (-0.8 * p.x + 0.6 * p.y) + 2.6 * uTime) * 0.05; gx += c4 * -0.8; gz += c4 * 0.6;
-  float c5 = cos(1.26 * (0.6 * p.x + 0.8 * p.y) - 3.1 * uTime) * 0.035; gx += c5 * 0.6; gz += c5 * 0.8;
+  // domain-warp the fine ripples so glints never line up into regular stripes
+  vec2 q = p + vec2(3.2 * sin(p.y * 0.17 + uTime * 0.45) + 1.6 * sin(p.y * 0.41 - uTime * 0.3), 3.2 * cos(p.x * 0.15 - uTime * 0.35) + 1.6 * cos(p.x * 0.37 + uTime * 0.5));
+  float c3 = cos(0.37 * (0.3 * q.x + 0.95 * q.y) + 1.9 * uTime) * 0.075; gx += c3 * 0.3; gz += c3 * 0.95;
+  float c4 = cos(0.70 * (-0.8 * q.x + 0.6 * q.y) + 2.6 * uTime) * 0.05; gx += c4 * -0.8; gz += c4 * 0.6;
+  float c5 = cos(1.26 * (0.6 * q.x + 0.8 * q.y) - 3.1 * uTime) * 0.035; gx += c5 * 0.6; gz += c5 * 0.8;
+  float c6 = cos(2.1 * (q.x - 0.7 * q.y) + 4.3 * uTime) * 0.02; gx += c6; gz += c6 * -0.7;
   return normalize(vec3(-gx, 1.0, -gz));
 }
 void main(){
@@ -43,11 +46,11 @@ void main(){
   vec3 V = normalize(cameraPosition - vWorld);
   float ndv = clamp(dot(n, V), 0.0, 1.0);
   float fres = pow(1.0 - ndv, 4.0) * 0.85 + 0.04;
-  vec3 body = mix(uDeep, uShallow, 0.22 + 0.78 * smoothstep(-0.3, 0.32, vWave / max(uAmp, 0.3)));
+  vec3 body = mix(uDeep, uShallow, 0.30 + 0.40 * smoothstep(-0.45, 0.45, vWave / max(uAmp, 0.3)));
   vec3 col = mix(body, uHorizon, fres);
   vec3 H = normalize(uSpecDir + V);
-  float spec = pow(max(dot(n, H), 0.0), 150.0);
-  col += uSpecColor * spec * 1.4;
+  float spec = pow(max(dot(n, H), 0.0), 260.0);
+  col += uSpecColor * min(spec, 1.0) * 0.6;
   float foam = smoothstep(0.24, 0.32, vWave + 0.035 * sin(vWorld.x * 2.1 + vWorld.z * 1.7 + uTime * 2.0)) * (0.2 + 0.2 * uAmp);
   col = mix(col, vec3(0.9, 0.95, 1.0) * (0.45 + 0.55 * (1.0 - uNight)), clamp(foam, 0.0, 0.5));
   // boat lamp pool

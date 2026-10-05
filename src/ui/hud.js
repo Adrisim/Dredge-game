@@ -77,7 +77,7 @@ export class Hud {
     const t = h('div', { class: 'toast ' + kind }, msg);
     this.toasts.append(t);
     while (this.toasts.children.length > 3) this.toasts.firstChild.remove();
-    setTimeout(() => t.classList.add('fade'), 2800);
+    setTimeout(() => t.classList.add('out'), 2800);
     setTimeout(() => t.remove(), 3400);
   }
 

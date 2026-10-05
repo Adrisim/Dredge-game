@@ -1,0 +1,11 @@
+{
+  "name": "Hollow Tide",
+  "short_name": "Hollow Tide",
+  "description": "A mobile fishing & exploration game: fish, haul, and survive the dark.",
+  "start_url": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#08131f",
+  "theme_color": "#08131f",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

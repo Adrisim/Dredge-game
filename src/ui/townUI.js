@@ -76,8 +76,7 @@ export function openTown(game, town) {
     const demand = town.boost.length
       ? h('div', { class: 'card' }, h('h3', {}, 'In demand here'), h('p', {}, town.boost.map((id) => ITEMS[id].name).join(' · ') + ' fetch 40% more.'))
       : null;
-    body.append(h('div', { style: 'display:flex;flex-direction:column;gap:11px;align-items:center' },
-      cargoView.root, info, btnSell, sellAllBtn, demand || ''));
+    body.append(h('div', { class: 'split' }, h('div', { class: 'l' }, cargoView.root), h('div', { class: 'r' }, info, btnSell, sellAllBtn, demand || '')));
     showSel(null); updateSellAll();
   }
 

@@ -1,7 +1,7 @@
 // Quests: side jobs delivered to a harbourmaster, plus the main "Hollow Light" storyline.
 export const QUESTS = [
   { id: 'q_mack', town: 'saltmere', title: 'Supper for the Harbourmaster', text: 'Old Marrin\'s pot is empty. Bring him three Mackerel and he will be in your debt.', req: { mackerel: 3 }, reward: { money: 80 } },
-  { id: 'q_scrap', town: 'saltmere', title: 'Spare Parts', text: 'The shipwright is short of scrap. Dredge three Scrap Iron from the seabed (dark, bubbling patches) and she will fit you a free dredge net.', req: { scrap_iron: 3 }, reward: { money: 30, upgrade: ['net', 1] }, hint: 'Dredging needs a net - the shipyard can sell you one if you have the coin.' },
+  { id: 'q_scrap', town: 'saltmere', title: 'The Shipwright\'s Cat', text: 'The shipwright\'s cat has not eaten since Tuesday. Bring three Sardines and she will fit you a dredge net for free.', req: { sardine: 3 }, reward: { money: 20, upgrade: ['net', 1] }, hint: 'A dredge net lets you scoop scrap, driftwood and ore from dark patches on the seabed.' },
   { id: 'q_boots', town: 'gullhaven', title: 'Boot Stew', text: 'Do not ask. Just bring two Old Boots. The cook has an idea.', req: { old_boot: 2 }, reward: { money: 50 } },
   { id: 'q_flat', town: 'gullhaven', title: 'Flat Fish Fridays', text: 'The tavern needs Flounder for Friday. Two will do.', req: { flounder: 2 }, reward: { money: 95 } },
   { id: 'q_crab', town: 'gullhaven', title: 'Crab Feast', text: 'A wedding party wants crab. Bring three Brown Crabs - you will need a crab pot rack from the shipyard.', req: { brown_crab: 3 }, reward: { money: 160 } },

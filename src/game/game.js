@@ -124,6 +124,8 @@ export class Game {
     if (this.titleEl) { this.titleEl.remove(); this.titleEl = null; }
     const st = this.state;
     this.applyState();
+    // a lens fragment flagged as found but absent from the hold (e.g. closed mid-placement) goes back to the seabed
+    if (!st.main.delivered) st.main.have = st.main.have.map((v, i) => v && st.inv.count('lens_' + (i + 1)) > 0);
     const port = getTown(st.lastPort) || getTown('saltmere');
     const p = pos || { x: port.dock.boat.x, z: port.dock.boat.z, heading: port.dock.boat.heading };
     this.boat.teleport(p.x, p.z, p.heading);

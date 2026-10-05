@@ -89,6 +89,7 @@ export function openSettings(game) {
     h('div', { class: 'setting' }, h('span', {}, 'Sound'), seg([[true, 'On'], [false, 'Off']], st.settings.sound, (v) => { st.settings.sound = v; audio.setEnabled(v); })),
     h('div', { class: 'setting' }, h('span', {}, 'Graphics'), seg([['auto', 'Auto'], ['low', 'Low'], ['high', 'High']], st.settings.quality, (v) => { st.settings.quality = v; game.applyQuality(); })),
     h('div', { class: 'setting' }, h('span', {}, 'Tutorial hints'), seg([[true, 'On'], [false, 'Off']], st.settings.hints, (v) => { st.settings.hints = v; })),
+    document.fullscreenEnabled ? h('div', { class: 'setting' }, h('span', {}, 'Fullscreen'), h('button', { class: 'btn sm', onclick: () => { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {}); } }, 'Toggle')) : null,
     h('div', { class: 'setting' }, h('span', {}, 'Vibration'), seg([[true, 'On'], [false, 'Off']], st.settings.vibrate !== false, (v) => { st.settings.vibrate = v; })),
     h('div', { class: 'sec-title' }, 'How to play'),
     h('div', { class: 'card' }, h('p', { style: 'color:var(--text);line-height:1.6' },

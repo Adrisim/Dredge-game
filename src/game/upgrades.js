@@ -58,7 +58,7 @@ export const UPGRADES = {
     name: 'Dredge Net', blurb: 'Drag the seabed for scrap, ore and relics.',
     levels: [
       { time: 0 },
-      { cost: 90, mats: { driftwood: 2 }, time: 4.2 },
+      { cost: 90, time: 4.2 },
       { cost: 420, mats: { scrap_iron: 4, driftwood: 2 }, time: 3.2 },
       { cost: 1500, mats: { copper_ore: 4, scrap_iron: 4 }, time: 2.2 },
     ],

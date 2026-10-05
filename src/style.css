@@ -81,7 +81,7 @@ button { font-family: inherit; color: inherit; }
 .toast { padding: 8px 14px; border-radius: 12px; background: var(--panel); border: 1px solid var(--line); font-size: 13px; text-align: center; animation: toastin .25s ease-out; box-shadow: 0 3px 12px rgba(0,0,0,.4); max-width: 92vw; }
 .toast.good { border-color: rgba(143,227,136,.6); }
 .toast.bad { border-color: rgba(255,107,91,.7); }
-.toast.fade { opacity: 0; transition: opacity .5s; }
+.toast.out { opacity: 0; transition: opacity .5s; }
 @keyframes toastin { from { transform: translateY(-8px); opacity: 0; } }
 .banner { position: absolute; top: 24%; left: 0; right: 0; text-align: center; pointer-events: none !important; font-family: var(--serif); text-shadow: 0 2px 14px rgba(0,0,0,.8); opacity: 0; transition: opacity .8s; }
 .banner.show { opacity: 1; }
@@ -248,3 +248,15 @@ button { font-family: inherit; color: inherit; }
   .hits { margin: 8px 0 2px; }
 }
 .cg-item.sel { filter: drop-shadow(0 0 3px #fff) drop-shadow(0 0 9px var(--accent)); z-index: 2; }
+
+/* two-column layout helper for short landscape screens */
+.split { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.split > .l, .split > .r { display: flex; flex-direction: column; gap: 11px; align-items: center; width: 100%; }
+@media (max-height: 520px) and (orientation: landscape) {
+  .split { flex-direction: row; align-items: flex-start; justify-content: center; gap: 20px; }
+  .split > .l { width: auto; flex: none; }
+  .split > .r { flex: 1; min-width: 0; max-width: 440px; }
+  .fishing .reel-btn { position: absolute; right: calc(var(--sar) + 8vw); top: 50%; margin-top: -55px; }
+  .fishing .cut { top: calc(var(--sat) + 8px); }
+  .tray { min-height: 76px; }
+}

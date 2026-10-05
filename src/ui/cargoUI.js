@@ -23,6 +23,8 @@ function bestRect(id, rot, cells, w, hh) {
 }
 
 /** SVG for one polyomino piece at a given cell size. */
+export const isShortLandscape = () => window.innerHeight < 520 && window.innerWidth > window.innerHeight;
+
 export function pieceSvg(id, rot, cell, { quest = false } = {}) {
   const def = ITEMS[id];
   const { cells, w, h: hh } = cellsFor(id, rot);
@@ -89,11 +91,12 @@ export class CargoView {
   }
 
   get cell() {
-    const availW = Math.min(window.innerWidth, 560) - 28 - 16 - 6;
-    const maxH = this.opts.maxHeight || window.innerHeight * 0.4;
+    const land = isShortLandscape();
+    const availW = land ? Math.min(window.innerWidth * 0.44, 420) : Math.min(window.innerWidth, 560) - 50;
+    const maxH = land ? window.innerHeight - 74 - 36 - (this.opts.reserve || 0) : (this.opts.maxHeight || window.innerHeight * 0.4);
     let c = Math.floor(availW / this.inv.w);
     c = Math.min(c, Math.floor((maxH - 16) / this.inv.h), 64);
-    return Math.max(32, c);
+    return Math.max(land ? 28 : 32, c);
   }
 
   setTray(entry) { this.tray = entry ? { uid: -1, id: entry.id, rot: entry.rot || 0, w: entry.w ?? 1, quest: ITEMS[entry.id].quest } : null; this.renderTray(); }
@@ -301,8 +304,9 @@ export function openCargoScreen(game) {
   const close = () => { view.destroy(); sheet.remove(); audio.close(); game.closeModal(); };
   sheet.append(
     h('div', { class: 'sheet-head' }, h('h1', {}, 'Cargo Hold', summary), h('button', { class: 'xbtn', html: icon('close', 20), onclick: close })),
-    h('div', { class: 'sheet-body' }, h('div', { style: 'display:flex;flex-direction:column;gap:12px;align-items:center' },
-      view.root, info, h('div', { class: 'row', style: 'width:100%' }, btnRot, btnDrop), trash)),
+    h('div', { class: 'sheet-body' }, h('div', { class: 'split' },
+      h('div', { class: 'l' }, view.root),
+      h('div', { class: 'r' }, info, h('div', { class: 'row', style: 'width:100%' }, btnRot, btnDrop), trash))),
   );
   showInfo(null); refreshSummary();
   game.openModal(sheet, close);
@@ -346,7 +350,7 @@ export function openPlacementScreen(game, entries, { title = 'Catch!', verb = 'c
       else done();
     };
     view = new CargoView({
-      inv, mode: 'edit', trashEl: trash, maxHeight: window.innerHeight * 0.34,
+      inv, mode: 'edit', trashEl: trash, maxHeight: window.innerHeight * 0.34, reserve: 100,
       onPlaced: () => { stored++; queue.shift(); audio.catchFish(); refresh(); },
       onDiscard: (it, fromTray) => {
         if (fromTray) { throwBack(); return; }
@@ -357,8 +361,9 @@ export function openPlacementScreen(game, entries, { title = 'Catch!', verb = 'c
     });
     sheet.append(
       h('div', { class: 'sheet-head' }, head),
-      h('div', { class: 'sheet-body' }, h('div', { style: 'display:flex;flex-direction:column;gap:11px;align-items:center' },
-        cardHolder, view.root, msg, h('div', { class: 'row', style: 'width:100%' }, btnRot, btnThrow), trash)),
+      h('div', { class: 'sheet-body' }, h('div', { class: 'split' },
+        h('div', { class: 'l' }, view.root),
+        h('div', { class: 'r' }, cardHolder, msg, h('div', { class: 'row', style: 'width:100%' }, btnRot, btnThrow), trash))),
     );
     game.openModal(sheet, null);
     refresh();

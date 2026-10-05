@@ -20,3 +20,11 @@ html = html.replace(/<link rel="manifest"[^>]*>\s*/g, '');
 const out = path.join(dist, 'hollow-tide.html');
 fs.writeFileSync(out, html);
 console.log(`wrote ${out} (${(html.length / 1024).toFixed(0)} KB)`);
+
+// Fragment build for hosts that supply their own <html>/<head> (e.g. a published artifact page):
+// title + style + game root elements + the inlined module script.
+const css = fs.readFileSync(path.join(dist, original.match(/<link rel="stylesheet" crossorigin href="\.\/(assets\/[^"]+)">/)[1]), 'utf8');
+const fragment = `<title>Hollow Tide</title>\n<style>${css}</style>\n<canvas id="gl"></canvas>\n<div id="ui"></div>\n<script type="module">${js.join('\n')}</script>\n`;
+const out2 = path.join(dist, 'hollow-tide.fragment.html');
+fs.writeFileSync(out2, fragment);
+console.log(`wrote ${out2} (${(fragment.length / 1024).toFixed(0)} KB)`);
